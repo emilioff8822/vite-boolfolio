@@ -1,13 +1,38 @@
 
 
-body{
-    background-color: darkgreen;
-    color: wheat;
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
 }
 
-.container{
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px; /* This property creates space around flex items */
+}
 
-width: 90%;
-max-width: 1200px;
-margin: 50px auto;
+.card {
+  background-color: wheat;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  flex: 1 0 calc(33% - 20px);
+}
+
+.card-title,
+.card-date,
+.card-category,
+.card-tags {
+  margin-bottom: .5em;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
