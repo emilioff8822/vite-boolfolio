@@ -125,7 +125,7 @@ export default {
 }
 
 .btn-cat {
-    margin: 10px;
+    margin: 8px;
     cursor: pointer;
 }
 </style>
