@@ -1,3 +1,11 @@
+
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+
+}
+
 body{
     background-color: rgb(175, 218, 234);
     color: rgb(25, 25, 25);
@@ -24,7 +32,24 @@ body{
 
 
 
+.badge{
+display: inline-block;
+border-radius: 5px;
+font-size: .9rem;
+font-weight: bold;
+padding: 5px;
 
+
+}
+
+.badge-category{
+background-color: rgb(80, 191, 162);
+
+}
+
+.badge-tag{
+    background: lightblue;
+}
 
 
 
