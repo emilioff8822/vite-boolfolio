@@ -53,14 +53,20 @@ export default {
         <h1>Blog</h1>
 
         <div>
-        <ItemPost v-for="post in posts" :key="post.id" :post="post"/>
-
+            <ItemPost v-for="post in posts" :key="post.id" :post="post" />
 
         </div>
 
 
 
     </div>
-</template>
 
+    <div>
+        <button @click="getApi(first_page_url)" :disabled="current_page == 1">Inizio</button>
+        <button v-for="(link, index) in links" key="index" v-html="link.label" @click="getApi(link.url)"
+            :disabled="link.active || !link.url"></button>
+        <button @click="getApi(last_page_url)" :disabled="current_page == last_page">Fine</button>
+
+    </div>
+</template>
 <style></style>
