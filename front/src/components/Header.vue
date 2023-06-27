@@ -1,31 +1,62 @@
 
 <script>
 export default {
-name: 'Header'
+    name: 'Header'
 
 }
 </script>
 
 
 <template>
-    <h1>Header</h1>
-    <ul>
-        <li>
-            <a href="">Home</a>
-        </li>
-         <li>
-                <a href="">Chi Siamo</a>
+    <header>
+
+        <ul>
+            <li>
+                <router-link :to="{ name: 'home' }"> Home</router-link>
+            </li>
+            <li>
+                <router-link :to="{ name: 'contacts' }"> Contatti</router-link>
+            </li>
+            <li>
+                <router-link :to="{ name: 'about' }"> Chi Siamo</router-link>
             </li>
              <li>
-                <a href="">Contatti</a>
-            </li>
-    </ul>
+            <router-link :to="{ name: 'blog' }"> Blog</router-link></li>
+        </ul>
 
 
-
+    </header>
 </template>
 
-<style>
+<style lang="scss" scoped>
+ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
 
+    li {
+        margin: 0px 15px;
+
+        a {
+            text-transform: uppercase;
+            color: wheat;
+            text-decoration: none;
+
+            &:hover,
+            &.active {
+                color: blue;
+            }
+        }
+
+        // Fine blocco "a"
+    }
+
+    // Fine blocco "li"
+}
+
+// Fine blocco "ul"
 </style>
+
+
+
 
