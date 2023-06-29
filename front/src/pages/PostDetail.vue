@@ -1,39 +1,94 @@
-
 <script>
-export default {
-    name: 'PostDetail'
+// Importazioni di librerie e componenti necessari
+import axios from 'axios';
+import { store } from '../store/store.js';
+import Loader from '../components/Loader.vue';
 
+export default {
+    name: 'PostDetail',
+    components: {
+        // Registro il componente del Loader
+        Loader
+    },
+    data() {
+        return {
+            // Inizializzo il post a null
+            post: null,
+            // Flag per il controllo dello stato di caricamento
+            loaded: false
+        }
+    },
+    methods: {
+        getApi() {
+            // Imposto il flag di caricamento a false
+            this.loaded = false;
+            // Eseguo la chiamata API per ottenere i dettagli del post
+            axios.get(store.apiUrl + 'posts/' + this.$route.params.slug)
+                .then(result => {
+                    // Quando ottengo una risposta, aggiorno lo stato del post e del flag di caricamento
+                    this.post = result.data;
+                    this.loaded = true;
+                });
+        }
+    },
+    computed: {
+        formattedData() {
+            // Formatto la data in italiano
+            const d = new Date(this.post.date);
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            };
+            function getUserLocale() {
+                // Ottengo la lingua dell'utente
+                const userLocale = navigator.languages && navigator.languages.length
+                    ? navigator.languages[0]
+                    : navigator.language;
+                return userLocale;
+            }
+            return d.toLocaleString(getUserLocale(), options);
+        },
+        category() {
+            // Se non è presente una categoria, restituisco '-no category'
+            if (!this.post.category) return '-no category';
+            // Altrimenti, restituisco il nome della categoria
+            return `<span class="badge badge-category">${this.post.category.name}</span>`;
+        }
+    },
+    mounted() {
+        // Quando il componente è montato, chiamo il metodo per ottenere i dati dal backend
+        this.getApi();
+    },
 }
 </script>
 
 
+
 <template>
     <div class="container-inner">
-        <h1>Titolo Post</h1>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus ratione error nostrum fugiat quae magnam
-            explicabo tempora quasi dolores a dignissimos, tempore qui dolore consequatur doloribus vel aliquam voluptatum
-            libero incidunt dolorem. Vitae sapiente enim accusamus error, quos perferendis vero similique molestias
-            reiciendis ad magni soluta veniam optio. Ratione perferendis aut error odit ullam, cum distinctio odio harum,
-            ipsa excepturi ea suscipit aliquam? Totam soluta nam maxime aperiam consequuntur quo praesentium magni ad aut
-            nesciunt perferendis mollitia officiis quasi alias dicta, sapiente beatae quos nulla aliquid iste minima
-            asperiores provident quidem rem? Doloribus, asperiores nobis eligendi voluptates voluptate aperiam enim
-            obcaecati quas porro tempora natus provident cum nam, maiores sapiente, repudiandae omnis aliquid. Consequuntur
-            id iusto atque accusantium, cumque molestias veritatis quam, numquam quaerat sequi facere expedita soluta. Earum
-            voluptas, reprehenderit delectus error aperiam quas autem ullam repellat quidem nobis! Minus placeat ad iste,
-            minima aut, quibusdam sed ullam architecto eum facere repudiandae, deleniti nisi. Ut accusamus praesentium
-            debitis accusantium at molestias! Facere, repudiandae id non aperiam consectetur culpa! Deserunt velit non
-            labore est. Reiciendis, accusantium molestias odio laboriosam magni illo vero laudantium veritatis natus aliquam
-            saepe asperiores dolorem, veniam tempore qui explicabo officiis impedit minima! Minus iusto reiciendis
-            doloremque, quibusdam id tenetur optio at ratione reprehenderit consequatur saepe? Ullam corporis qui doloribus
-        minus amet. Quod ipsum, odio aspernatur, corporis nihil unde repudiandae facere nobis blanditiis eum
-        reprehenderit? Voluptatibus quibusdam totam doloribus nihil officiis voluptates, id nobis sequi ea sed ex magnam
-        voluptate. Ad, accusamus quibusdam totam eveniet dignissimos, obcaecati quo fugiat explicabo officiis laudantium
-        nihil. Ducimus, autem. Nisi cupiditate non quod rerum voluptatibus corporis ab dolorem sit, obcaecati quibusdam
-        aliquid sequi officia assumenda voluptates commodi numquam voluptatum laudantium labore ipsam incidunt
-        exercitationem. Mollitia eos dicta labore blanditiis, unde voluptatum omnis, soluta consequatur earum deleniti
-        iste facilis qui optio ducimus.</p>
+        <div v-if="loaded">
+
+            <p> <strong>Titolo Post:</strong></p>
+            <p>{{ post.title }}</p>
+            <i><strong>Scritto il giorno: </strong>{{ formattedData }} <strong>da:</strong> {{ post.user.name }}</i>
+
+            <div>
+                <img :src="post.image_path" :alt="post.image_original_name">
+                <i>{{ post.image_original_name }}</i>
+            </div>
+
+        </div>
+        <Loader v-else />
 
 
-</div></template>
+    </div>
+</template>
 
-<style></style>
+
+<style lang="scss" scoped>
+div {
+    margin: 10px;
+}
+</style>

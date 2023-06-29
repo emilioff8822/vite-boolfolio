@@ -75,4 +75,13 @@ ul {
         margin-right: 10px;
     }
 }
+
+a {
+    text-decoration: none;
+    color: darkblue;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
 </style>
